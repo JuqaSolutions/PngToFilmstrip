@@ -1,6 +1,8 @@
 #pragma once
 
 #include <juce_gui_extra/juce_gui_extra.h>
+#include "CreateFilmstripThread.h"
+
 
 class MainComponent  : public juce::Component
 {
@@ -13,7 +15,8 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void printToLog(juce::String message);
+    //For Windows Clion Debugging
+    void printToLog(juce::String message){std::cout<<message<<std::endl;}
 
 private:
     juce::Label brandLabel, appNameLanel, inputFilesLabel, outputFolderLabel;
@@ -21,10 +24,12 @@ private:
     juce::ImageButton inputBrowserButton, outputBrowserButton;
     juce::TextEditor inputTextEditor, outputTextEditor;
 
-    juce::File fileToLoad{ juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getFullPathName() + ("PNGToFilmstrip/pngToConvert") };
-    juce::File fileToSave{ juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getFullPathName() + ("PNGToFilmstrip/exportedPngFilmstrip/Output.png") };
+    juce::File fileToLoad{ juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getFullPathName() + ("/PNGToFilmstrip/pngToConvert") };
+    juce::File fileToSave{ juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getFullPathName() + ("/PNGToFilmstrip/exportedPngFilmstrip/Output.png") };
 
     std::unique_ptr<juce::FileChooser> myChooser;
+    std::function<void()> function = [this]{proceed();};
+    CreateFilmstripThread createFilmstripThread{function};
 
     void launchBrowser(juce::String browserText, juce::TextEditor& textEditor);
     void proceed();
