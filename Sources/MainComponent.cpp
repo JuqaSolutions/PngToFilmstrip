@@ -124,47 +124,44 @@ void MainComponent::proceed() {
 
             juce::PNGImageFormat imageFileFormat;
             juce::Array<juce::Image> imageArray{};
-            int width = 0;
-            int height = 0;
+            int width = -1;
+            int height = -1;
             int outputHeight = 0;
 
-            //TODO !!!!! Create a THREAD !!!!!!!!!!!
             for (juce::File file: result)
             {
                 juce::Image tempImage;
-                int tempWidth{123};
-                int tempHeight{123};
+                int tempWidth{0};
+                int tempHeight{0};
 
-                //juce::FileInputStream fileInputStream = juce::FileInputStream(file);
+                tempImage = juce::ImageFileFormat::loadFrom(file);
 
-//                if (!imageFileFormat.canUnderstand(fileInputStream))
-//                        DBG("Wrong file type, need png file format");
-//                else
-//                {
-                    tempImage = juce::ImageFileFormat::loadFrom(file);//imageFileFormat.decodeImage(fileInputStream);
-                //}
-                //std::cout<<fileInputStream.getTotalLength()<<std::endl;
                 std::cout<<tempImage.isValid()<<std::endl;
-
+                if (!tempImage.isValid())
+                {
+                    juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "File not valid", "It seems that at least one file isn't valid.");
+                    return;
+                }
                 tempWidth = tempImage.getWidth();
                 tempHeight = tempImage.getHeight();
 
-                DBG(tempHeight << " + " << tempWidth);
-                std::cout<<tempHeight << " + " << tempWidth<<std::endl;
+                if (width ==-1)
+                {
+                    width = tempWidth;
+                    height = tempHeight;
+                }
+                else
+                {
+                    if (tempWidth != width || tempHeight != height)
+                    {
+                        juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Wrong dimensions", "All the .png files must have the same dimensions");
+                        return;
+                    }
+                }
 
-                imageArray.add(tempImage);//.decodeImage(fileInputStream));
-                width = tempWidth;
-                height = tempHeight;
-
-                /* if ((tempWidth != 0 || tempWidth != width)
-                     &&
-                     (tempHeight != 0 || tempHeight != height))
-                 {
-                     DBG("The Image size doesn't match with the others");
-                 }
-                 else {
-                     imageArray.add(imageFileFormat.decodeImage(juce::FileInputStream(file)));
-                 }*/
+                imageArray.add(tempImage);
+//                width = tempWidth;
+//                height = tempHeight;
             }
 
             outputHeight = height * imageArray.size();
@@ -189,7 +186,7 @@ void MainComponent::proceed() {
         }
         else
         {
-            juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Empty folder", "The folder containing the .png files is empty.");
+            juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Empty folder", "The folder containing the .png files is empty. Or your files aren't .png type");
         }
     }
 }
