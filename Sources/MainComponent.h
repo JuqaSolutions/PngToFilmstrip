@@ -20,9 +20,9 @@ public:
 
 private:
     juce::Label brandLabel, appNameLanel, inputFilesLabel, outputFolderLabel;
-    juce::TextButton proceedButton;
-    juce::ImageButton inputBrowserButton, outputBrowserButton;
-    juce::TextEditor inputTextEditor, outputTextEditor;
+    juce::TextButton proceedButton, supportUsButton;
+    juce::ImageButton logoOpenWebBrowser, inputBrowserButton, outputBrowserButton;
+    juce::Label inputTextEditor, outputTextEditor;
 
     juce::File fileToLoad{ juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getFullPathName() + ("/PNGToFilmstrip/pngToConvert") };
     juce::File fileToSave{ juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getFullPathName() + ("/PNGToFilmstrip/exportedPngFilmstrip/Output.png") };
@@ -31,7 +31,7 @@ private:
     std::function<void()> function = [this]{proceed();};
     CreateFilmstripThread createFilmstripThread{function};
 
-    void launchBrowser(juce::String browserText, juce::TextEditor& textEditor);
+    void launchBrowser(juce::String browserText, juce::Label& textEditor);
     void proceed();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

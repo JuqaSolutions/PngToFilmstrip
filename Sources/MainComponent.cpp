@@ -6,6 +6,7 @@ MainComponent::MainComponent()
     setSize (600, 400);
 
     addAndMakeVisible(brandLabel);
+    addAndMakeVisible(logoOpenWebBrowser);
     addAndMakeVisible(appNameLanel);
 
     addAndMakeVisible(inputFilesLabel);
@@ -16,20 +17,24 @@ MainComponent::MainComponent()
     addAndMakeVisible(outputTextEditor);
     addAndMakeVisible(outputBrowserButton);
 
+    addAndMakeVisible(supportUsButton);
     addAndMakeVisible(proceedButton);
 
     brandLabel.setText("Juqa.Solutions", juce::dontSendNotification);
     appNameLanel.setText("PNG TO FILMSTRIP", juce::dontSendNotification);
     inputFilesLabel.setText("Select the folder containing the .png files:", juce::dontSendNotification);
-    inputTextEditor.setText(fileToLoad.getFullPathName());
+    inputTextEditor.setText(fileToLoad.getFullPathName(), juce::dontSendNotification);
     outputFolderLabel.setText("Select the output folder:", juce::dontSendNotification);
-    outputTextEditor.setText(fileToSave.getFullPathName());
-    proceedButton.setButtonText("Let's go!");
+    outputTextEditor.setText(fileToSave.getFullPathName(), juce::dontSendNotification);
+    supportUsButton.setButtonText("Support us!");
+    proceedButton.setButtonText("Let's convert to filmstrip!");
 
     inputBrowserButton.onClick = [&] {launchBrowser("Select the folder containing the .png files:", inputTextEditor); };
     outputBrowserButton.onClick = [&] {launchBrowser("Select the output folder:", outputTextEditor); };
+    //TODO Put real patreon link
+    supportUsButton.onClick = []{juce::URL("https://patreon.com").launchInDefaultBrowser();};
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
-    //TODO Put Patreon link
+    logoOpenWebBrowser.onClick = []{juce::URL("https://juqa.solutions").launchInDefaultBrowser();};
 }
 
 MainComponent::~MainComponent()
@@ -54,8 +59,9 @@ void MainComponent::resized()
     auto outputBounds = bounds.removeFromTop(height);
     auto footerBounds = bounds.removeFromTop(height);
 
-    brandLabel.setBounds(headerBounds.removeFromLeft(headerBounds.getWidth() / 2));
-    appNameLanel.setBounds(headerBounds);
+    appNameLanel.setBounds(headerBounds.removeFromRight(headerBounds.getWidth() / 2));
+    brandLabel.setBounds(headerBounds);
+    logoOpenWebBrowser.setBounds(headerBounds);
 
     inputFilesLabel.setBounds(inputBounds.removeFromTop(inputBounds.getHeight() / 2));
     inputTextEditor.setBounds(inputBounds.removeFromLeft(inputBounds.getWidth() * 0.9f));
@@ -65,10 +71,11 @@ void MainComponent::resized()
     outputTextEditor.setBounds(outputBounds.removeFromLeft(outputBounds.getWidth() * 0.9f));
     outputBrowserButton.setBounds(outputBounds);
 
-    proceedButton.setBounds(footerBounds.removeFromRight(footerBounds.getWidth() / 2));
+    supportUsButton.setBounds(footerBounds.removeFromLeft(footerBounds.getWidth() / 2));
+    proceedButton.setBounds(footerBounds);
 }
 
-void MainComponent::launchBrowser(juce::String browserText, juce::TextEditor& textEditor)
+void MainComponent::launchBrowser(juce::String browserText, juce::Label& textEditor)
 {
     myChooser = std::make_unique<juce::FileChooser>(browserText,
                                                     juce::File::getSpecialLocation(juce::File::userHomeDirectory),
@@ -79,7 +86,7 @@ void MainComponent::launchBrowser(juce::String browserText, juce::TextEditor& te
             [&](const juce::FileChooser& chooser)
             {
                 juce::File returnedFile(chooser.getResult());
-                textEditor.setText(returnedFile.getFullPathName());
+                textEditor.setText(returnedFile.getFullPathName(), juce::dontSendNotification);
             });
 }
 
