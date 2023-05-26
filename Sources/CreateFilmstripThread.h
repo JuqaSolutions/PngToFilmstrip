@@ -11,10 +11,10 @@ struct CreateFilmstripThread : public juce::ThreadWithProgressWindow
     void run() override
     {
         DBG("Enter into the thread");
-        std::cout<<"Enter into the thread"<<std::endl;
+        //std::cout<<"Enter into the thread"<<std::endl;
         func();
         DBG("end of thread");
-        std::cout<<"end of thread"<<std::endl;
+        //std::cout<<"end of thread"<<std::endl;
     }
 
 private:

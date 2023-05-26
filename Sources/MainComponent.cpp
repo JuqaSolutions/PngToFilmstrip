@@ -26,7 +26,6 @@ MainComponent::MainComponent()
     outputTextEditor.setText(fileToSave.getFullPathName(), juce::dontSendNotification);
     supportUsButton.setButtonText("Support us!");
     proceedButton.setButtonText("Let's convert to filmstrip!");
-    supportUsButton.setColour(juce::TextButton::buttonColourId, backgroundColour);
 
     inputBrowserButton.onClick = [&] {launchInputBrowser(); };
     outputBrowserButton.onClick = [&] {launchOutputBrowser(); };
@@ -46,6 +45,8 @@ MainComponent::MainComponent()
     outputFolderLabel.setJustificationType(juce::Justification::centred);
     outputFolderLabel.setColour(juce::Label::textColourId, browserLabelColour);
     outputFolderLabel.setFont(juce::Font(14.0f, juce::Font::bold));
+
+    supportUsButton.setColour(juce::TextButton::buttonColourId, backgroundColour);
 
     initializeImageButtons();
 }
@@ -174,7 +175,7 @@ void MainComponent::proceed()
                 false,
                 "*.png")) {
             DBG("contains of the directory: " << result.size());
-            std::cout<<result.size()<<std::endl;
+            //std::cout<<result.size()<<std::endl;
 
             juce::PNGImageFormat imageFileFormat;
             juce::Array<juce::Image> imageArray{};
@@ -190,7 +191,7 @@ void MainComponent::proceed()
 
                 tempImage = juce::ImageFileFormat::loadFrom(file);
 
-                std::cout<<tempImage.isValid()<<std::endl;
+                //std::cout<<tempImage.isValid()<<std::endl;
                 if (!tempImage.isValid())
                 {
                     juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,
@@ -218,8 +219,6 @@ void MainComponent::proceed()
                 }
 
                 imageArray.add(tempImage);
-//                width = tempWidth;
-//                height = tempHeight;
             }
 
             outputHeight = height * imageArray.size();
