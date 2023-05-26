@@ -30,8 +30,8 @@ MainComponent::MainComponent()
     proceedButton.setButtonText("Let's convert to filmstrip!");
     supportUsButton.setColour(juce::TextButton::buttonColourId, backgroundColour);
 
-    inputBrowserButton.onClick = [&] {launchBrowser("Select the folder containing the .png files:", inputTextEditor, fileToLoad); };
-    outputBrowserButton.onClick = [&] {launchBrowser("Select the output folder:", outputTextEditor, fileToSave); };
+    inputBrowserButton.onClick = [&] {launchInputBrowser(); };
+    outputBrowserButton.onClick = [&] {launchOutputBrowser(); };
     //TODO Put real patreon link
     supportUsButton.onClick = []{juce::URL("https://patreon.com").launchInDefaultBrowser();};
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
@@ -40,6 +40,7 @@ MainComponent::MainComponent()
     appNameLanel.setJustificationType(juce::Justification::centred);
     appNameLanel.setColour(juce::Label::textColourId, appNameColour);
     appNameLanel.setFont(juce::Font(24.0f, juce::Font::bold | juce::Font::italic));
+
     initializeImageButtons();
 }
 
@@ -92,25 +93,56 @@ void MainComponent::resized()
     proceedButton.setBounds(footerBounds.reduced(height * 0.3f));
 }
 
-void MainComponent::launchBrowser(juce::String browserText, juce::Label& textEditor, juce::File& fileToCopy)
+void MainComponent::launchInputBrowser()
 {
-    myChooser = std::make_unique<juce::FileChooser>(browserText, fileToCopy);
+    myChooser = std::make_unique<juce::FileChooser>("Select the folder containing the .png files:", fileToLoad);
 
     myChooser->launchAsync(
             juce::FileBrowserComponent::openMode |
-            juce::FileBrowserComponent::canSelectDirectories |
-                    juce::FileBrowserComponent::saveMode |
-                    juce::FileBrowserComponent::canSelectFiles |
-                    juce::FileBrowserComponent::warnAboutOverwriting |
-                    juce::FileBrowserComponent::useTreeView |
+                    juce::FileBrowserComponent::canSelectDirectories |
+                    //juce::FileBrowserComponent::saveMode |
+                    //juce::FileBrowserComponent::canSelectFiles |
+                    //juce::FileBrowserComponent::warnAboutOverwriting |
+//                    juce::FileBrowserComponent::useTreeView |
                     juce::FileBrowserComponent::doNotClearFileNameOnRootChange,
             [&](const juce::FileChooser& chooser)
             {
                 juce::File returnedFile(chooser.getResult());
                 if (returnedFile.getFileName().length() != 0)
                 {
-                    textEditor.setText(returnedFile.getFullPathName(), juce::dontSendNotification);
-                    fileToCopy = returnedFile;
+                    inputTextEditor.setText(returnedFile.getFullPathName(), juce::dontSendNotification);
+                    fileToLoad = returnedFile;
+                }
+
+                if (fileToLoad.findChildFiles(
+                        2,
+                        false,
+                        "*.png").size() < 2)
+                {
+                    juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Wrong folder?", "It seems that your selected folder contains less than 2 .png file. It needs at least 2 file to do the job.");
+                }
+            });
+}
+
+void MainComponent::launchOutputBrowser()
+{
+    myChooser = std::make_unique<juce::FileChooser>("Select the output folder:", fileToSave, "*.png");
+
+    myChooser->launchAsync(
+            //juce::FileBrowserComponent::openMode |
+            //juce::FileBrowserComponent::canSelectDirectories |
+            juce::FileBrowserComponent::saveMode |
+            juce::FileBrowserComponent::canSelectFiles |
+            juce::FileBrowserComponent::warnAboutOverwriting |
+            juce::FileBrowserComponent::useTreeView |
+            juce::FileBrowserComponent::doNotClearFileNameOnRootChange,
+            [&](const juce::FileChooser& chooser)
+            {
+                juce::File returnedFile(chooser.getResult());
+                if (returnedFile.getFileName().length() != 0)
+                {
+                    outputTextEditor.setText(returnedFile.getFullPathName(), juce::dontSendNotification);
+                    fileToSave = returnedFile;
                 }
             });
 }
@@ -119,9 +151,7 @@ void MainComponent::proceed()
 {
 
     /**
-     *  use 2 methods for launch the browser
-        input folder need to be a folder not a file + containing .png files ( need to test) and perhaps at least 2 files minimum?
-        output folder need to be a file not a folder + with an extension .png type
+     *
         if the output file is already existing, nothing is written(keep the old file) <- Resolve this bug
      */
 

@@ -19,7 +19,7 @@ public:
 private:
     juce::Colour backgroundColour = juce::Colour::fromRGB(0, 68, 85);
     juce::Colour browserBackgroundColour = juce::Colours::darkgrey;
-    juce::Colour appNameColour = juce::Colours::lightgrey;
+    juce::Colour appNameColour = juce::Colours::darkturquoise;
 
     juce::Label brandLabel, appNameLanel, inputFilesLabel, outputFolderLabel;
     juce::TextButton proceedButton, supportUsButton;
@@ -33,7 +33,9 @@ private:
     std::function<void()> function = [this]{proceed();};
     CreateFilmstripThread createFilmstripThread{function};
 
-    void launchBrowser(juce::String browserText, juce::Label& textEditor, juce::File& fileToCopy);
+    void launchInputBrowser();
+    void launchOutputBrowser();
+
     void proceed();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
