@@ -92,6 +92,7 @@ target_compile_definitions(${PROJECT_NAME}
 
  juce_add_binary_data(GuiAppData SOURCES
          Sources/Assets/juqa_logo.png
+         Sources/Assets/Search_Logo.png
          )
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,

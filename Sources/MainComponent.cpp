@@ -21,7 +21,7 @@ MainComponent::MainComponent()
     addAndMakeVisible(proceedButton);
 
     brandLabel.setText("Juqa.Solutions", juce::dontSendNotification);
-    appNameLanel.setText("PNG TO FILMSTRIP", juce::dontSendNotification);
+    appNameLanel.setText("Png To Filmstrip", juce::dontSendNotification);
     inputFilesLabel.setText("Select the folder containing the .png files:", juce::dontSendNotification);
     inputTextEditor.setText(fileToLoad.getFullPathName(), juce::dontSendNotification);
     outputFolderLabel.setText("Select the output folder:", juce::dontSendNotification);
@@ -37,6 +37,9 @@ MainComponent::MainComponent()
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
     logoOpenWebBrowser.onClick = []{juce::URL("https://juqa.solutions").launchInDefaultBrowser();};
 
+    appNameLanel.setJustificationType(juce::Justification::centred);
+    appNameLanel.setColour(juce::Label::textColourId, appNameColour);
+    appNameLanel.setFont(juce::Font(24.0f, juce::Font::bold | juce::Font::italic));
     initializeImageButtons();
 }
 
@@ -75,15 +78,15 @@ void MainComponent::resized()
 
     appNameLanel.setBounds(headerBounds.removeFromRight(headerBounds.getWidth() / 2));
     brandLabel.setBounds(headerBounds);
-    logoOpenWebBrowser.setBounds(headerBounds);
+    logoOpenWebBrowser.setBounds(headerBounds.reduced(height * 0.2f));
 
     inputFilesLabel.setBounds(inputBounds.removeFromTop(inputBounds.getHeight() / 2));
     inputTextEditor.setBounds(inputBounds.removeFromLeft(inputBounds.getWidth() * 0.9f));
-    inputBrowserButton.setBounds(inputBounds);
+    inputBrowserButton.setBounds(inputBounds.reduced(height * 0.07f));
 
     outputFolderLabel.setBounds(outputBounds.removeFromTop(outputBounds.getHeight() / 2));
     outputTextEditor.setBounds(outputBounds.removeFromLeft(outputBounds.getWidth() * 0.9f));
-    outputBrowserButton.setBounds(outputBounds);
+    outputBrowserButton.setBounds(outputBounds.reduced(height * 0.07f));
 
     supportUsButton.setBounds(footerBounds.removeFromLeft(footerBounds.getWidth() / 2).reduced(height * 0.3f));
     proceedButton.setBounds(footerBounds.reduced(height * 0.3f));
@@ -230,4 +233,34 @@ void MainComponent::initializeImageButtons()
                                  1.0f,
                                  juce::Colours::transparentBlack
                                  );
+
+    juce::Image inputBrowser = juce::ImageCache::getFromMemory(BinaryData::Search_Logo_png, BinaryData::Search_Logo_pngSize);
+    inputBrowserButton.setImages(false,
+                                 true,
+                                 true,
+                                 inputBrowser,
+                                 1.0f,
+                                 juce::Colours::transparentBlack,
+                                 inputBrowser,
+                                 1.0f,
+                                 juce::Colours::transparentBlack,
+                                 inputBrowser,
+                                 1.0f,
+                                 juce::Colours::transparentBlack
+    );
+
+    juce::Image outputBrowser = juce::ImageCache::getFromMemory(BinaryData::Search_Logo_png, BinaryData::Search_Logo_pngSize);
+    outputBrowserButton.setImages(false,
+                                 true,
+                                 true,
+                                  outputBrowser,
+                                 1.0f,
+                                 juce::Colours::transparentBlack,
+                                  outputBrowser,
+                                 1.0f,
+                                 juce::Colours::transparentBlack,
+                                  outputBrowser,
+                                 1.0f,
+                                 juce::Colours::transparentBlack
+    );
 }

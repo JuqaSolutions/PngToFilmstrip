@@ -19,6 +19,7 @@ public:
 private:
     juce::Colour backgroundColour = juce::Colour::fromRGB(0, 68, 85);
     juce::Colour browserBackgroundColour = juce::Colours::darkgrey;
+    juce::Colour appNameColour = juce::Colours::lightgrey;
 
     juce::Label brandLabel, appNameLanel, inputFilesLabel, outputFolderLabel;
     juce::TextButton proceedButton, supportUsButton;
