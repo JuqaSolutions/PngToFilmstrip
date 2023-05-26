@@ -12,7 +12,6 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
-    void initializeImageButtons();
 
 private:
     juce::Colour backgroundColour = juce::Colour::fromRGB(0, 68, 85);
@@ -35,6 +34,7 @@ private:
     void launchInputBrowser();
     void launchOutputBrowser();
     void proceed();
+    void initializeImageButtons();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
