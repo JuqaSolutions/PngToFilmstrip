@@ -5,7 +5,6 @@ MainComponent::MainComponent()
 {
     setSize (600, 400);
 
-    //addAndMakeVisible(brandLabel);
     addAndMakeVisible(logoOpenWebBrowser);
     addAndMakeVisible(appNameLanel);
 
@@ -20,7 +19,6 @@ MainComponent::MainComponent()
     addAndMakeVisible(supportUsButton);
     addAndMakeVisible(proceedButton);
 
-    brandLabel.setText("Juqa.Solutions", juce::dontSendNotification);
     appNameLanel.setText("Png To Filmstrip", juce::dontSendNotification);
     inputFilesLabel.setText("Select the folder containing the .png files:", juce::dontSendNotification);
     inputTextEditor.setText(fileToLoad.getFullPathName(), juce::dontSendNotification);
@@ -40,6 +38,14 @@ MainComponent::MainComponent()
     appNameLanel.setJustificationType(juce::Justification::centred);
     appNameLanel.setColour(juce::Label::textColourId, appNameColour);
     appNameLanel.setFont(juce::Font(24.0f, juce::Font::bold | juce::Font::italic));
+
+    inputFilesLabel.setJustificationType(juce::Justification::centred);
+    inputFilesLabel.setColour(juce::Label::textColourId, browserLabelColour);
+    inputFilesLabel.setFont(juce::Font(14.0f, juce::Font::bold));
+
+    outputFolderLabel.setJustificationType(juce::Justification::centred);
+    outputFolderLabel.setColour(juce::Label::textColourId, browserLabelColour);
+    outputFolderLabel.setFont(juce::Font(14.0f, juce::Font::bold));
 
     initializeImageButtons();
 }
@@ -78,7 +84,6 @@ void MainComponent::resized()
     auto footerBounds = bounds.removeFromTop(height);
 
     appNameLanel.setBounds(headerBounds.removeFromRight(headerBounds.getWidth() / 2));
-    brandLabel.setBounds(headerBounds);
     logoOpenWebBrowser.setBounds(headerBounds.reduced(height * 0.2f));
 
     inputFilesLabel.setBounds(inputBounds.removeFromTop(inputBounds.getHeight() / 2));
@@ -100,10 +105,6 @@ void MainComponent::launchInputBrowser()
     myChooser->launchAsync(
             juce::FileBrowserComponent::openMode |
                     juce::FileBrowserComponent::canSelectDirectories |
-                    //juce::FileBrowserComponent::saveMode |
-                    //juce::FileBrowserComponent::canSelectFiles |
-                    //juce::FileBrowserComponent::warnAboutOverwriting |
-//                    juce::FileBrowserComponent::useTreeView |
                     juce::FileBrowserComponent::doNotClearFileNameOnRootChange,
             [&](const juce::FileChooser& chooser)
             {
@@ -129,8 +130,6 @@ void MainComponent::launchOutputBrowser()
     myChooser = std::make_unique<juce::FileChooser>("Select the output folder:", fileToSave, "*.png");
 
     myChooser->launchAsync(
-            //juce::FileBrowserComponent::openMode |
-            //juce::FileBrowserComponent::canSelectDirectories |
             juce::FileBrowserComponent::saveMode |
             juce::FileBrowserComponent::canSelectFiles |
             juce::FileBrowserComponent::warnAboutOverwriting |
@@ -149,12 +148,6 @@ void MainComponent::launchOutputBrowser()
 
 void MainComponent::proceed()
 {
-
-    /**
-     *
-        if the output file is already existing, nothing is written(keep the old file) <- Resolve this bug
-     */
-
     DBG("Proceed() is loaded: " << fileToLoad.getFullPathName());
 
     if (!fileToLoad.exists()) {
@@ -162,6 +155,11 @@ void MainComponent::proceed()
     }
 
     if (!fileToSave.exists()) {
+        fileToSave.create();
+    }
+    else
+    {
+        fileToSave.deleteFile();
         fileToSave.create();
     }
 
@@ -195,7 +193,9 @@ void MainComponent::proceed()
                 std::cout<<tempImage.isValid()<<std::endl;
                 if (!tempImage.isValid())
                 {
-                    juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "File not valid", "It seems that at least one file isn't valid.");
+                    juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,
+                                                           "File not valid",
+                                                           "It seems that at least one file isn't valid.");
                     return;
                 }
                 tempWidth = tempImage.getWidth();
@@ -210,7 +210,9 @@ void MainComponent::proceed()
                 {
                     if (tempWidth != width || tempHeight != height)
                     {
-                        juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Wrong dimensions", "All the .png files must have the same dimensions");
+                        juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,
+                                                               "Wrong dimensions",
+                                                               "All the .png files must have the same dimensions");
                         return;
                     }
                 }
@@ -242,7 +244,9 @@ void MainComponent::proceed()
         }
         else
         {
-            juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Empty folder", "The folder containing the .png files is empty. Or your files aren't .png type");
+            juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,
+                                                   "Empty folder",
+                                                   "The folder containing the .png files is empty. Or your files aren't .png type");
         }
     }
 }

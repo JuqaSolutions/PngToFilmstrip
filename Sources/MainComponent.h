@@ -20,8 +20,9 @@ private:
     juce::Colour backgroundColour = juce::Colour::fromRGB(0, 68, 85);
     juce::Colour browserBackgroundColour = juce::Colours::darkgrey;
     juce::Colour appNameColour = juce::Colours::darkturquoise;
+    juce::Colour browserLabelColour = juce::Colours::beige;
 
-    juce::Label brandLabel, appNameLanel, inputFilesLabel, outputFolderLabel;
+    juce::Label appNameLanel, inputFilesLabel, outputFolderLabel;
     juce::TextButton proceedButton, supportUsButton;
     juce::ImageButton logoOpenWebBrowser, inputBrowserButton, outputBrowserButton;
     juce::Label inputTextEditor, outputTextEditor;
