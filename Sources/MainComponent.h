@@ -2,7 +2,7 @@
 
 #include <juce_gui_extra/juce_gui_extra.h>
 #include "CreateFilmstripThread.h"
-
+#include "BinaryData.h"
 
 class MainComponent  : public juce::Component
 {
@@ -14,11 +14,12 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
-    //For Windows Clion Debugging
-    void printToLog(juce::String message){std::cout<<message<<std::endl;}
+    void initializeImageButtons();
 
 private:
+    juce::Colour backgroundColour = juce::Colour::fromRGB(0, 68, 85);
+    juce::Colour browserBackgroundColour = juce::Colours::darkgrey;
+
     juce::Label brandLabel, appNameLanel, inputFilesLabel, outputFolderLabel;
     juce::TextButton proceedButton, supportUsButton;
     juce::ImageButton logoOpenWebBrowser, inputBrowserButton, outputBrowserButton;
@@ -31,7 +32,7 @@ private:
     std::function<void()> function = [this]{proceed();};
     CreateFilmstripThread createFilmstripThread{function};
 
-    void launchBrowser(juce::String browserText, juce::Label& textEditor);
+    void launchBrowser(juce::String browserText, juce::Label& textEditor, juce::File& fileToCopy);
     void proceed();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

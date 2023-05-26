@@ -90,9 +90,9 @@ target_compile_definitions(${PROJECT_NAME}
 # static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
 # Conversion to binary-data will happen when your target is built.
 
-# juce_add_binary_data(GuiAppData SOURCES
-#         #...
-#         )
+ juce_add_binary_data(GuiAppData SOURCES
+         Sources/Assets/juqa_logo.png
+         )
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_gui_extra` module. Inter-module
@@ -102,7 +102,7 @@ target_compile_definitions(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        #GuiAppData            # If we'd created a binary data target, we'd link to it here
+        GuiAppData            # If we'd created a binary data target, we'd link to it here
         juce::juce_gui_extra
     PUBLIC
         juce::juce_recommended_config_flags

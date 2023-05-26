@@ -5,7 +5,7 @@ MainComponent::MainComponent()
 {
     setSize (600, 400);
 
-    addAndMakeVisible(brandLabel);
+    //addAndMakeVisible(brandLabel);
     addAndMakeVisible(logoOpenWebBrowser);
     addAndMakeVisible(appNameLanel);
 
@@ -28,13 +28,16 @@ MainComponent::MainComponent()
     outputTextEditor.setText(fileToSave.getFullPathName(), juce::dontSendNotification);
     supportUsButton.setButtonText("Support us!");
     proceedButton.setButtonText("Let's convert to filmstrip!");
+    supportUsButton.setColour(juce::TextButton::buttonColourId, backgroundColour);
 
-    inputBrowserButton.onClick = [&] {launchBrowser("Select the folder containing the .png files:", inputTextEditor); };
-    outputBrowserButton.onClick = [&] {launchBrowser("Select the output folder:", outputTextEditor); };
+    inputBrowserButton.onClick = [&] {launchBrowser("Select the folder containing the .png files:", inputTextEditor, fileToLoad); };
+    outputBrowserButton.onClick = [&] {launchBrowser("Select the output folder:", outputTextEditor, fileToSave); };
     //TODO Put real patreon link
     supportUsButton.onClick = []{juce::URL("https://patreon.com").launchInDefaultBrowser();};
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
     logoOpenWebBrowser.onClick = []{juce::URL("https://juqa.solutions").launchInDefaultBrowser();};
+
+    initializeImageButtons();
 }
 
 MainComponent::~MainComponent()
@@ -46,7 +49,18 @@ MainComponent::~MainComponent()
 //==============================================================================
 void MainComponent::paint (juce::Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.fillAll (backgroundColour);
+
+    auto bounds = getLocalBounds();
+    auto height = bounds.getHeight() / 4;
+    bounds.removeFromTop(height);
+    auto inputBounds = bounds.removeFromTop(height);
+    auto outputBounds = bounds.removeFromTop(height);
+
+    g.setColour(browserBackgroundColour);
+    g.fillRoundedRectangle(inputBounds.removeFromBottom(height / 2).toFloat(), 20);
+    g.fillRoundedRectangle(outputBounds.removeFromBottom(height / 2).toFloat(), 20);
+
 }
 
 void MainComponent::resized()
@@ -71,42 +85,44 @@ void MainComponent::resized()
     outputTextEditor.setBounds(outputBounds.removeFromLeft(outputBounds.getWidth() * 0.9f));
     outputBrowserButton.setBounds(outputBounds);
 
-    supportUsButton.setBounds(footerBounds.removeFromLeft(footerBounds.getWidth() / 2));
-    proceedButton.setBounds(footerBounds);
+    supportUsButton.setBounds(footerBounds.removeFromLeft(footerBounds.getWidth() / 2).reduced(height * 0.3f));
+    proceedButton.setBounds(footerBounds.reduced(height * 0.3f));
 }
 
-void MainComponent::launchBrowser(juce::String browserText, juce::Label& textEditor)
+void MainComponent::launchBrowser(juce::String browserText, juce::Label& textEditor, juce::File& fileToCopy)
 {
-    myChooser = std::make_unique<juce::FileChooser>(browserText,
-                                                    juce::File::getSpecialLocation(juce::File::userHomeDirectory),
-                                                    "*.png");
+    myChooser = std::make_unique<juce::FileChooser>(browserText, fileToCopy);
 
     myChooser->launchAsync(
-            juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectDirectories,
+            juce::FileBrowserComponent::openMode |
+            juce::FileBrowserComponent::canSelectDirectories |
+                    juce::FileBrowserComponent::saveMode |
+                    juce::FileBrowserComponent::canSelectFiles |
+                    juce::FileBrowserComponent::warnAboutOverwriting |
+                    juce::FileBrowserComponent::useTreeView |
+                    juce::FileBrowserComponent::doNotClearFileNameOnRootChange,
             [&](const juce::FileChooser& chooser)
             {
                 juce::File returnedFile(chooser.getResult());
-                textEditor.setText(returnedFile.getFullPathName(), juce::dontSendNotification);
+                if (returnedFile.getFileName().length() != 0)
+                {
+                    textEditor.setText(returnedFile.getFullPathName(), juce::dontSendNotification);
+                    fileToCopy = returnedFile;
+                }
             });
 }
 
-void MainComponent::proceed() {
-    DBG("Proceed!");
+void MainComponent::proceed()
+{
 
     /**
-    Verifications:
+     *  use 2 methods for launch the browser
+        input folder need to be a folder not a file + containing .png files ( need to test) and perhaps at least 2 files minimum?
+        output folder need to be a file not a folder + with an extension .png type
+        if the output file is already existing, nothing is written(keep the old file) <- Resolve this bug
+     */
 
-        input:
-            folder contains .png files and not empty - height and width identical on all files - files are Bitmap type - ...
-        thread:
-            for processing
-
-            ////loadFiles(pathForLoad);
-            //verifyFiles();
-            //assembleFiles();
-    */
-
-    DBG("is loaded: " << fileToLoad.getFullPathName());
+    DBG("Proceed() is loaded: " << fileToLoad.getFullPathName());
 
     if (!fileToLoad.exists()) {
         fileToLoad.createDirectory();
@@ -196,4 +212,22 @@ void MainComponent::proceed() {
             juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Empty folder", "The folder containing the .png files is empty. Or your files aren't .png type");
         }
     }
+}
+
+void MainComponent::initializeImageButtons()
+{
+    juce::Image logo = juce::ImageCache::getFromMemory(BinaryData::juqa_logo_png, BinaryData::juqa_logo_pngSize);
+    logoOpenWebBrowser.setImages(false,
+                                 true,
+                                 true,
+                                 logo,
+                                 1.0f,
+                                 juce::Colours::transparentBlack,
+                                 logo,
+                                 1.0f,
+                                 juce::Colours::transparentBlack,
+                                 logo,
+                                 1.0f,
+                                 juce::Colours::transparentBlack
+                                 );
 }
