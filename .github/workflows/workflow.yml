@@ -53,14 +53,14 @@ jobs:
 
       - name: "(JUCE) Create Build Environment"
         working-directory: ${{runner.workspace}}/PngToFilmstrip/JUCE
-        run: cmake -E make_directory ${{runner.workspace}}/JUCE/build
+        run: cmake -E make_directory ${{runner.workspace}}/PngToFilmstrip/JUCE/build
 
       - name: "(JUCE) Configuration"
         working-directory: ${{runner.workspace}}/PngToFilmstrip/JUCE/build
-        run: cmake ${{runner.workspace}}/JUCE
+        run: cmake ${{runner.workspace}}/PngToFilmstrip/JUCE
 
       - name: "(JUCE) Build"
-        working-directory: ${{runner.workspace}}/JUCE/build
+        working-directory: ${{runner.workspace}}/PngToFilmstrip/JUCE/build
         run: cmake --build .
 
       - name: "(<PLUGIN_NAME>) Create Build Environment"
