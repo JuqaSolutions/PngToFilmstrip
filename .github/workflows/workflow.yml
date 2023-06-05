@@ -63,14 +63,14 @@ jobs:
         working-directory: ${{runner.workspace}}/PngToFilmstrip/JUCE/build
         run: cmake --build .
 
-      - name: "(<PROJECT_NAME>) Create Build Environment"
+      - name: "(PngToFilmstrip) Create Build Environment"
         working-directory: ${{runner.workspace}}/PngToFilmstrip
         run: cmake -E make_directory ${{runner.workspace}}/PngToFilmstrip/build
 
-      - name: "(<PROJECT_NAME>) Configuration"
+      - name: "(PngToFilmstrip) Configuration"
         working-directory: ${{runner.workspace}}/PngToFilmstrip/build
         run: cmake ${{runner.workspace}}/PngToFilmstrip
 
-      - name: "(<PROJECT_NAME>) Build"
+      - name: "(PngToFilmstrip) Build"
         working-directory: ${{runner.workspace}}/PngToFilmstrip/build
         run: cmake --build . --config $BUILD_TYPE
