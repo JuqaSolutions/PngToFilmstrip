@@ -49,4 +49,8 @@ jobs:
 
       - name: "(PngToFilmstrip) Build"
         working-directory: ${{runner.workspace}}/PngToFilmstrip/build
-        run: cmake --build . #--config $BUILD_TYPE
+        run: cmake --build . #--config  ${{ env.BUILD_TYPE }}
+
+#      - name: "Test"
+#        working-directory: ${{ env.BUILD_DIR }}
+#        run: ctest --output-on-failure -j4 -VV
