@@ -30,6 +30,14 @@ project(${PROJECT_NAME} VERSION 0.0.1)
 # or
 add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
+#include(FetchContent)
+#FetchContent_Declare(
+#        JUCE
+#        GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
+#        GIT_TAG 6.0.5
+#)
+#FetchContent_MakeAvailable(JUCE)
+
 # If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
 # to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
 

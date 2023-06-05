@@ -1,31 +1,76 @@
-name: CMake
+#name: CMake
+#
+#on: [push, pull_request]
+#
+#env:
+#  BUILD_TYPE: Release
+#
+#jobs:
+#  build:
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [macos-latest, windows-latest]
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#        with:
+#          submodules: recursive
+#
+#      - name: Create Build Environment
+#        run: cmake -E make_directory ${{runner.workspace}}/build
+#
+#      - name: Configure CMake
+#        shell: bash
+#        working-directory: ${{runner.workspace}}/build
+#        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+#
+#      - name: Build
+#        working-directory: ${{runner.workspace}}/build
+#        shell: bash
+#        run: cmake --build . --config $BUILD_TYPE
 
-on: [push, pull_request]
+name: PngCI
+
+on: [push]
 
 env:
   BUILD_TYPE: Release
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
+    runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: "Preparation"
+        uses: actions/checkout@v2
+
+      - name: "(JUCE) Clone Repository"
+        uses: actions/checkout@v2
         with:
-          submodules: recursive
+          repository: juce-framework/JUCE
+          path: ${{runner.workspace}}/<REPO_DIR>/JUCE
 
-      - name: Create Build Environment
-        run: cmake -E make_directory ${{runner.workspace}}/build
+      - name: "(JUCE) Create Build Environment"
+        working-directory: ${{runner.workspace}}/garm/JUCE
+        run: cmake -E make_directory ${{runner.workspace}}/<REPO_DIR>/JUCE/build
 
-      - name: Configure CMake
-        shell: bash
-        working-directory: ${{runner.workspace}}/build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: "(JUCE) Configuration"
+        working-directory: ${{runner.workspace}}/garm/JUCE/build
+        run: cmake ${{runner.workspace}}/<REPO_DIR>/JUCE
 
-      - name: Build
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
+      - name: "(JUCE) Build"
+        working-directory: ${{runner.workspace}}/<REPO_DIR>/JUCE/build
+        run: cmake --build .
+
+      - name: "(<PLUGIN_NAME>) Create Build Environment"
+        working-directory: ${{runner.workspace}}/<REPO_DIR>
+        run: cmake -E make_directory ${{runner.workspace}}/<REPO_DIR>/build
+
+      - name: "(<PLUGIN_NAME>) Configuration"
+        working-directory: ${{runner.workspace}}/<REPO_DIR>/build
+        run: cmake ${{runner.workspace}}/<REPO_DIR>
+
+      - name: "(<PLUGIN_NAME>) Build"
+        working-directory: ${{runner.workspace}}/<REPO_DIR>/build
         run: cmake --build . --config $BUILD_TYPE
