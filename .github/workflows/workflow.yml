@@ -49,14 +49,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: juce-framework/JUCE
-          path: ${{runner.workspace}}/JUCE
+          path: ${{runner.workspace}}/PngToFilmstrip/JUCE
 
       - name: "(JUCE) Create Build Environment"
-        working-directory: ${{runner.workspace}}/garm/JUCE
+        working-directory: ${{runner.workspace}}/PngToFilmstrip/JUCE
         run: cmake -E make_directory ${{runner.workspace}}/JUCE/build
 
       - name: "(JUCE) Configuration"
-        working-directory: ${{runner.workspace}}/garm/JUCE/build
+        working-directory: ${{runner.workspace}}/PngToFilmstrip/JUCE/build
         run: cmake ${{runner.workspace}}/JUCE
 
       - name: "(JUCE) Build"
