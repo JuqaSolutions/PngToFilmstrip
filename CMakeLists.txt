@@ -154,3 +154,5 @@ target_compile_definitions(tests
 
 target_link_libraries(tests PRIVATE  Catch2::Catch2WithMain juce::juce_gui_basics GuiAppData)
 
+include(${Catch2_SOURCE_DIR}/extras/Catch.cmake)
+catch_discover_tests(tests)
