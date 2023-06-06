@@ -62,7 +62,14 @@ juce_add_gui_app(${PROJECT_NAME}
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
- juce_generate_juce_header(${PROJECT_NAME})
+ #juce_generate_juce_header(${PROJECT_NAME})
+
+set(SOURCE_FILES
+        Sources/Main.cpp
+        Sources/MainComponent.cpp
+        Sources/MainComponent.h
+        Sources/CreateFilmstripThread.h
+        )
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
@@ -71,9 +78,7 @@ juce_add_gui_app(${PROJECT_NAME}
 
 target_sources(${PROJECT_NAME}
     PRIVATE
-        Sources/Main.cpp
-        Sources/MainComponent.cpp
-        Sources/CreateFilmstripThread.h
+        ${SOURCE_FILES}
         )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
@@ -111,10 +116,41 @@ target_compile_definitions(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        GuiAppData            # If we'd created a binary data target, we'd link to it here
-        juce::juce_gui_extra
+        GuiAppData # If we'd created a binary data target, we'd link to it here
+        juce::juce_gui_basics
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags)
+
+#*************************
+# Code For Catch2 Testing
+#*************************
+
+enable_testing()
+
+Include(FetchContent)
+
+FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG        v3.0.1 # or a later release
+)
+
+FetchContent_MakeAvailable(Catch2)
+
+add_executable(tests
+        Tests/PngToFilmstripTest.cpp
+        ${SOURCE_FILES}
+        )
+
+target_compile_definitions(tests
+        PRIVATE
+        # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
+        JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_gui_app` call
+        JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_gui_app` call
+        JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:${PROJECT_NAME},JUCE_PRODUCT_NAME>"
+        JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:${PROJECT_NAME},JUCE_VERSION>")
+
+target_link_libraries(tests PRIVATE  Catch2::Catch2WithMain juce::juce_gui_basics GuiAppData)
 
