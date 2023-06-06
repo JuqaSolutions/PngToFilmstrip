@@ -3,11 +3,12 @@
 #include <catch2/catch_all.hpp>
 #include "../Sources/MainComponent.h"
 
+//std::cout<<mainComponent.getNumChildComponents()<<std::endl;
 
-TEST_CASE("one is equal to one", "[dummy]")
+
+TEST_CASE("Get Application name", "[start]")
 {
-//auto gui = juce::ScopedJuceInitialiser_GUI {};
-MainComponent mainComponent;
-std::cout<<mainComponent.getNumChildComponents()<<std::endl;
-//REQUIRE(8 == mainComponent.returnAnInt());
+    MainComponent mainComponent;
+    REQUIRE(mainComponent.getName() == "Png To Filmstrip");
 }
+
