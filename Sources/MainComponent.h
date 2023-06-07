@@ -13,6 +13,32 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    const juce::Label &getAppNameLanel() const;
+
+    const juce::Label &getInputFilesLabel() const;
+
+    const juce::Label &getOutputFolderLabel() const;
+
+    const juce::TextButton &getProceedButton() const;
+
+    const juce::TextButton &getSupportUsButton() const;
+
+    const juce::ImageButton &getLogoOpenWebBrowser() const;
+
+    const juce::ImageButton &getInputBrowserButton() const;
+
+    const juce::ImageButton &getOutputBrowserButton() const;
+
+    const juce::Label &getInputTextEditor() const;
+
+    const juce::Label &getOutputTextEditor() const;
+
+    const juce::File &getFileToLoad() const;
+
+    const juce::File &getFileToSave() const;
+
+    const std::unique_ptr<juce::FileChooser> &getMyChooser() const;
+
 private:
     juce::Colour backgroundColour = juce::Colour::fromRGB(0, 68, 85);
     juce::Colour browserBackgroundColour = juce::Colours::darkgrey;

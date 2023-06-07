@@ -122,7 +122,9 @@ void MainComponent::launchInputBrowser()
                         false,
                         "*.png").size() < 2)
                 {
-                    juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Wrong folder?", "It seems that your selected folder contains less than 2 .png file. It needs at least 2 file to do the job.");
+                    juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,
+                                                           "Wrong folder?",
+                                                           "It seems that your selected folder contains less than 2 .png file. It needs at least 2 file to do the job.");
                 }
             });
 }
@@ -297,4 +299,56 @@ void MainComponent::initializeImageButtons()
                                  1.0f,
                                  juce::Colours::transparentBlack
     );
+}
+
+const juce::Label &MainComponent::getAppNameLanel() const {
+    return appNameLanel;
+}
+
+const juce::Label &MainComponent::getInputFilesLabel() const {
+    return inputFilesLabel;
+}
+
+const juce::Label &MainComponent::getOutputFolderLabel() const {
+    return outputFolderLabel;
+}
+
+const juce::TextButton &MainComponent::getProceedButton() const {
+    return proceedButton;
+}
+
+const juce::TextButton &MainComponent::getSupportUsButton() const {
+    return supportUsButton;
+}
+
+const juce::ImageButton &MainComponent::getLogoOpenWebBrowser() const {
+    return logoOpenWebBrowser;
+}
+
+const juce::ImageButton &MainComponent::getInputBrowserButton() const {
+    return inputBrowserButton;
+}
+
+const juce::ImageButton &MainComponent::getOutputBrowserButton() const {
+    return outputBrowserButton;
+}
+
+const juce::Label &MainComponent::getInputTextEditor() const {
+    return inputTextEditor;
+}
+
+const juce::Label &MainComponent::getOutputTextEditor() const {
+    return outputTextEditor;
+}
+
+const juce::File &MainComponent::getFileToLoad() const {
+    return fileToLoad;
+}
+
+const juce::File &MainComponent::getFileToSave() const {
+    return fileToSave;
+}
+
+const std::unique_ptr<juce::FileChooser> &MainComponent::getMyChooser() const {
+    return myChooser;
 }
