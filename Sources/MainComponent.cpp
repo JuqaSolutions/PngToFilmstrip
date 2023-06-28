@@ -30,8 +30,7 @@ MainComponent::MainComponent()
 
     inputBrowserButton.onClick = [&] {launchInputBrowser(); };
     outputBrowserButton.onClick = [&] {launchOutputBrowser(); };
-    //TODO Put real patreon link
-    supportUsButton.onClick = []{juce::URL("https://patreon.com").launchInDefaultBrowser();};
+    supportUsButton.onClick = []{juce::URL("https://patreon.com/JuqaSolutions").launchInDefaultBrowser();};
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
     logoOpenWebBrowser.onClick = []{juce::URL("https://juqa.solutions").launchInDefaultBrowser();};
 
