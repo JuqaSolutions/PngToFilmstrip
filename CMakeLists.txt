@@ -21,6 +21,9 @@ set(PROJECT_NAME "PngToFilmstrip")
 
 project(${PROJECT_NAME} VERSION 0.0.1)
 
+#Enable this to build for Apple Intel based
+#set(CMAKE_OSX_ARCHITECTURES "x86_64")
+
 # If you've installed JUCE somehow (via a package manager, or directly using the CMake install
 # target), you'll need to tell this project that it depends on the installed copy of JUCE. If you've
 # included JUCE directly in your source tree (perhaps as a submodule), you'll need to tell CMake to
