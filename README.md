@@ -27,4 +27,4 @@ If you need some .png knob files to test the PNGTOFilmstrip application or to us
 [Link to png files](https://github.com/JuqaSolutions/PngToFilmstrip/tree/main/PNGFilesForTest)
 
 We also plan to release regularly some 3D knobs or assets png files through our Patreon page:
-[Juqa Solutions Patreon](https:::patreon.com/JuqaSolutions)
+[Juqa Solutions Patreon](https://patreon.com/JuqaSolutions)
