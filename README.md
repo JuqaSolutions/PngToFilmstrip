@@ -28,3 +28,6 @@ If you need some .png knob files to test the PNGTOFilmstrip application or to us
 
 We also plan to release regularly some 3D knobs or assets png files through our Patreon page:
 [Juqa Solutions Patreon](https://patreon.com/JuqaSolutions)
+
+The installers for Apple/ Linux/ Windows are here:
+[Installers](https://github.com/JuqaSolutions/PngToFilmstrip/releases/tag/v1.0.0)
