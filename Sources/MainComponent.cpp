@@ -32,7 +32,7 @@ MainComponent::MainComponent()
     outputBrowserButton.onClick = [&] {launchOutputBrowser(); };
     supportUsButton.onClick = []{juce::URL("https://patreon.com/JuqaSolutions").launchInDefaultBrowser();};
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
-    logoOpenWebBrowser.onClick = []{juce::URL("https://juqa.solutions").launchInDefaultBrowser();};
+    logoOpenWebBrowser.onClick = []{juce::URL("https://github.com/JuqaSolutions/PngToFilmstrip").launchInDefaultBrowser();};
 
     appNameLanel.setJustificationType(juce::Justification::centred);
     appNameLanel.setColour(juce::Label::textColourId, appNameColour);
