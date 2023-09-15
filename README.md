@@ -26,8 +26,8 @@ Let’s convert to filmstrip button :
 If you need some .png knob files to test the PNGTOFilmstrip application or to use in your own application, you can find some free to use here:
 [Link to png files](https://github.com/JuqaSolutions/PngToFilmstrip/tree/main/PNGFilesForTest)
 
-We also plan to release regularly some 3D knobs or assets png files through our Patreon page:
+If you want to support us through our Patreon page:
 [Juqa Solutions Patreon](https://patreon.com/JuqaSolutions)
 
-The installers for Apple/ Linux/ Windows are here:
-[Installers](https://github.com/JuqaSolutions/PngToFilmstrip/releases/tag/v1.0.0)
+The released for Apple/ Linux/ Windows are here:
+[Application](https://github.com/JuqaSolutions/PngToFilmstrip/releases)
