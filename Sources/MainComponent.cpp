@@ -44,7 +44,7 @@ MainComponent::MainComponent()
 
     inputBrowserButton.onClick = [&] {launchInputBrowser(); };
     outputBrowserButton.onClick = [&] {launchOutputBrowser(); };
-    supportUsButton.onClick = []{juce::URL("https://patreon.com/JuqaSolutions").launchInDefaultBrowser();};
+    supportUsButton.onClick = []{juce::URL("https://juqasolutions.github.io/supportus.html").launchInDefaultBrowser();};
     proceedButton.onClick = [this] {createFilmstripThread.launchThread();};
     logoOpenWebBrowser.onClick = []{juce::URL("https://github.com/JuqaSolutions/PngToFilmstrip").launchInDefaultBrowser();};
 
