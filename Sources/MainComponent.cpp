@@ -199,6 +199,8 @@ void MainComponent::proceed()
             int height = -1;
             int outputHeight = 0;
 
+            result.sort();
+
             for (juce::File file: result)
             {
                 juce::Image tempImage;

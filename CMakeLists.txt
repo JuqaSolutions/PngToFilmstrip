@@ -4,7 +4,7 @@ include(FetchContent)
 
 FetchContent_Declare(JUCE
         GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
-        GIT_TAG        7.0.2
+        #GIT_TAG        7.0.2
         SOURCE_DIR     ${CMAKE_SOURCE_DIR}/JUCE
 )
 
@@ -15,8 +15,12 @@ set(PROJECT_NAME "PngToFilmstrip")
 project(${PROJECT_NAME} VERSION 1.0.11)
 
 ###########################################
-#Enable this to build for Apple Intel based
+#Enable this to build only for Apple Intel based
 #set(CMAKE_OSX_ARCHITECTURES "x86_64")
+#Enable this to build only for Apple Silicon based
+set(CMAKE_OSX_ARCHITECTURES "arm64")
+#Or for both
+#set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 ###########################################
 
 juce_add_gui_app(${PROJECT_NAME}
@@ -61,6 +65,7 @@ target_link_libraries(${PROJECT_NAME}
 #*************************
 # Code For Catch2 Testing
 #*************************
+#[[
 
 enable_testing()
 
@@ -90,4 +95,4 @@ target_compile_definitions(tests
 target_link_libraries(tests PRIVATE  Catch2::Catch2WithMain juce::juce_gui_basics GuiAppData)
 
 #include(${Catch2_SOURCE_DIR}/extras/Catch.cmake)
-#catch_discover_tests(tests)
+#catch_discover_tests(tests)]]
