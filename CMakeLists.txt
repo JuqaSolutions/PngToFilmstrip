@@ -28,6 +28,8 @@ juce_add_gui_app(${PROJECT_NAME}
     ICON_BIG "${CMAKE_CURRENT_SOURCE_DIR}/Sources/Assets/icon.png"
     PRODUCT_NAME "Png to Filmstrip Converter")
 
+juce_generate_juce_header(${PROJECT_NAME})
+
 set(SOURCE_FILES
         Sources/Main.cpp
         Sources/MainComponent.cpp

@@ -1,24 +1,29 @@
+/*
+  ==============================================================================
+
+    This file contains the basic startup code for a JUCE application.
+
+  ==============================================================================
+*/
+
+#include <JuceHeader.h>
 #include "MainComponent.h"
 
 //==============================================================================
-class GuiAppApplication  : public juce::JUCEApplication
+class PngToFilmstripApplication  : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    GuiAppApplication() {}
+    PngToFilmstripApplication() {}
 
-    // We inject these as compile definitions from the CMakeLists.txt
-    // If you've enabled the juce header with `juce_generate_juce_header(<thisTarget>)`
-    // you could `#include <JuceHeader.h>` and use `ProjectInfo::projectName` etc. instead.
-    const juce::String getApplicationName() override       { return JUCE_APPLICATION_NAME_STRING; }
-    const juce::String getApplicationVersion() override    { return JUCE_APPLICATION_VERSION_STRING; }
+    const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
+    const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
     bool moreThanOneInstanceAllowed() override             { return true; }
 
     //==============================================================================
     void initialise (const juce::String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
-        juce::ignoreUnused (commandLine);
 
         mainWindow.reset (new MainWindow (getApplicationName()));
     }
@@ -43,7 +48,6 @@ public:
         // When another instance of the app is launched while this one is running,
         // this method is invoked, and the commandLine parameter tells you what
         // the other instance's command-line arguments were.
-        juce::ignoreUnused (commandLine);
     }
 
     //==============================================================================
@@ -54,10 +58,10 @@ public:
     class MainWindow    : public juce::DocumentWindow
     {
     public:
-        explicit MainWindow (juce::String name)
+        MainWindow (juce::String name)
             : DocumentWindow (name,
                               juce::Desktop::getInstance().getDefaultLookAndFeel()
-                                                          .findColour (ResizableWindow::backgroundColourId),
+                                                          .findColour (juce::ResizableWindow::backgroundColourId),
                               DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
@@ -98,4 +102,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (GuiAppApplication)
+START_JUCE_APPLICATION (PngToFilmstripApplication)

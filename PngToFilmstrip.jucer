@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="Ze6uME" name="PngToFilmstrip" projectType="guiapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+  <MAINGROUP id="n61Y8a" name="PngToFilmstrip">
+    <GROUP id="{E379C9BE-BFDD-1472-63E6-4FFD273CE753}" name="Source">
+      <GROUP id="{E1131400-512D-966C-2FE2-9EBED0896E64}" name="Assets">
+        <FILE id="at2C80" name="icon.png" compile="0" resource="1" file="Sources/Assets/icon.png"/>
+        <FILE id="p1H0qe" name="juqa_logo.png" compile="0" resource="1" file="Sources/Assets/juqa_logo.png"/>
+        <FILE id="X7nast" name="Search_Logo.png" compile="0" resource="1" file="Sources/Assets/Search_Logo.png"/>
+      </GROUP>
+      <FILE id="jtDe99" name="CreateFilmstripThread.h" compile="0" resource="0"
+            file="Sources/CreateFilmstripThread.h"/>
+      <FILE id="rLbn3t" name="Main.cpp" compile="1" resource="0" file="Sources/Main.cpp"/>
+      <FILE id="MYoTbO" name="MainComponent.cpp" compile="1" resource="0"
+            file="Sources/MainComponent.cpp"/>
+      <FILE id="banoN3" name="MainComponent.h" compile="0" resource="0" file="Sources/MainComponent.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="PngToFilmstrip"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="PngToFilmstrip"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="PngToFilmstrip"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="PngToFilmstrip"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="PngToFilmstrip"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="PngToFilmstrip"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
